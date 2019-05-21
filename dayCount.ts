@@ -210,13 +210,16 @@ export function dateSpread(begDate: Date, endDate: Date, interval: string): Date
   let t = []
   let tDate = begDate
   do {
-    t.push({ start: tDate, end:  eoMonth(tDate,0) <= endDate ? eoMonth(tDate,0) : endDate })  // need to fix this incrementing line
+    let r = {}
+    r['start'] = new Date(tDate.getTime())
     tDate = new Date(Date.UTC(idx.year.toZero   ? 0 : tDate.getUTCFullYear() + idx.year.adj
                             , idx.month.toZero  ? 0 : tDate.getUTCMonth()    + idx.month.adj
                             , idx.day.toZero    ? 0 : tDate.getUTCDate()     + idx.day.adj
                             , idx.hour.toZero   ? 0 : tDate.getUTCHours()    + idx.hour.adj
                             , idx.minute.toZero ? 0 : tDate.getUTCMinutes()  + idx.minute.adj
                             ))
+    r['end'] = new Date(tDate.getTime())
+    t.push({ start: tDate, end:  eoMonth(tDate,0) <= endDate ? eoMonth(tDate,0) : endDate })  // need to fix this incrementing line
   } while (tDate <= endDate)  // < seems to work for months and hours needs <= for days. needs a little work
 
   return t
